@@ -10,3 +10,4 @@ export class InstantMessageComponent {
   @Input()
   message: InstantMessage;
 }
+

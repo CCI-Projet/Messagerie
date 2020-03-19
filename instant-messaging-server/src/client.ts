@@ -1,7 +1,11 @@
 import {connection as WebSocketConnection} from 'websocket';
-import { Server } from './server';
+import { Server } from "./server";
+
 
 export class Client {
+    private usernameRegex = /^[a-zA-Z0-9]*$/;
+    private username: string = null;
+
     public constructor(private server: Server, private connection: WebSocketConnection) {
         connection.on('message', (message)=>this.onMessage(message.utf8Data));
         connection.on('close', ()=>server.removeClient(this));
@@ -17,16 +21,24 @@ export class Client {
         this.sendMessage('instant_message', instantMessage);
     }
 
-    private onInstantMessage(content: string): void {
+    private onInstantMessage(content): void {
         if (!(typeof 'content' === 'string')) return;
-        this.server.broadcastInstantMessage(content, 'Anonymous');
+        if (this.username==null) return;
+        this.server.broadcastInstantMessage(content, this.username);
+    }
+
+    private onUsername(username) {
+        if (!(typeof 'username' === 'string')) return;
+        if (!this.usernameRegex.test(username)) return;
+        this.username = username;
+        this.sendMessage('login', 'ok');
     }
 
     private onMessage(utf8Data: string): void {
         const message = JSON.parse(utf8Data);
         switch (message.type) {
             case 'instant_message': this.onInstantMessage(message.data); break;
+            case 'username': this.onUsername(message.data); break;
         }
     }
-
 }

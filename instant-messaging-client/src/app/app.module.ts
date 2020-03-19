@@ -9,13 +9,17 @@ import { MessageListComponent } from './message-list/message-list.component';
 import { InstantMessageComponent } from './instant-message/instant-message.component';
 import { NewMessageFormComponent } from './new-message-form/new-message-form.component';
 import { InstantMessagingService } from './instant-messaging.service';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { AutoScrollDirective } from './auto-scroll.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     MessageListComponent,
     InstantMessageComponent,
-    NewMessageFormComponent
+    NewMessageFormComponent,
+    LoginFormComponent,
+    AutoScrollDirective
   ],
   imports: [
     BrowserModule,

@@ -30,7 +30,7 @@ class Server {
         const connection = request.accept(null, request.origin);
         const client = new client_1.Client(this, connection);
         this.clients.push(client);
-        /* ou this.clients.push(new Client(this, connection)); */
+        //this.clients.push(new Client(this, connection));
     }
     broadcastInstantMessage(content, author) {
         const date = new Date();

@@ -29,11 +29,12 @@ export class Server {
         webSocketServer.on('request', request=>this.onWebSocketRequest(request));
     }
 
+
     private onWebSocketRequest(request): void {
         const connection = request.accept(null, request.origin);
         const client = new Client(this, connection);
         this.clients.push(client);
-        /* ou this.clients.push(new Client(this, connection)); */
+        //this.clients.push(new Client(this, connection));
     }
 
     public broadcastInstantMessage(content: string, author: string): void {
@@ -41,12 +42,9 @@ export class Server {
         for (const client of this.clients) {
           client.sendInstantMessage(content, author, date);
         }
-
- 
     }
 
     removeClient(client: Client) {
         this.clients.splice(this.clients.indexOf(client), 1);
-
     }
 }
